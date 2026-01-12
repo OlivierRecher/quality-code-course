@@ -1,10 +1,14 @@
 import express from 'express';
-import userController from './adapters/driving/userController';
+import { InMemoryUserRepo } from './adapters/driven/inMemoryUserRepo';
+import { UserService } from './services/userService';
+import { UserController } from './adapters/driving/userController';
 
 const app = express();
 app.use(express.json());
 
-app.use('/users', userController);
+const userService = new UserService(new InMemoryUserRepo());
+const userController = new UserController(userService);
+userController.registerRoutes(app);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
