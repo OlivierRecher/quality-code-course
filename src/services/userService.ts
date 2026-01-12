@@ -1,6 +1,6 @@
 import { User } from "../domain/user";
 import { UserPort } from "../ports/driving/userPort";
-import { UserRepositoryPort } from "../ports/driven/repoPort";
+import { UserRepositoryPort } from "../ports/driven/userRepoPort";
 
 export class UserService implements UserPort {
     private readonly repo: UserRepositoryPort;

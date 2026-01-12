@@ -1,4 +1,4 @@
-import { User } from "../../domain/user.js";
+import { User } from "../../domain/user";
 
 export interface UserPort {
     listUsers(): Promise<User[]>;

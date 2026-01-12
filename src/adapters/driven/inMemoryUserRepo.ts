@@ -1,5 +1,5 @@
-import { UserRepositoryPort } from "../../ports/driven/repoPort.js";
-import { User } from "../../domain/user.js";
+import { UserRepositoryPort } from "../../ports/driven/userRepoPort";
+import { User } from "../../domain/user";
 import { v4 as uuidv4 } from 'uuid';
 
 const users: User[] = [];
