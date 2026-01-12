@@ -1,0 +1,275 @@
+openapi: 3.0.0
+info:
+  title: Social Graph API
+  version: "1.0.0"
+  description: API to manage users, their social circles and political opinions
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /users:
+    get:
+      tags: [Users]
+      summary: Get all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+    post:
+      tags: [Users]
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: user created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/{userId}:
+    get:
+      tags: [Users]
+      summary: Get one user
+      operationId: getUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    delete:
+      tags: [Users]
+      summary: Delete a user
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: deleted
+
+  /users/{userId}/political-view:
+    get:
+      tags: [Politics]
+      summary: Get political view
+      operationId: getPoliticalView
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: political view
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoliticalView'
+
+    put:
+      tags: [Politics]
+      summary: Update political view
+      operationId: updatePoliticalView
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PoliticalView'
+      responses:
+        '200':
+          description: updated
+
+  /users/{userId}/circles:
+    get:
+      tags: [Circles]
+      summary: Get all social circles of a user
+      operationId: getUserCircles
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of circles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Circle'
+
+    post:
+      tags: [Circles]
+      summary: Create a new circle (friends or family)
+      operationId: createCircle
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CircleCreate'
+      responses:
+        '201':
+          description: created
+
+  /users/{userId}/circles/{circleId}/members:
+    post:
+      tags: [Circles]
+      summary: Add a user to a circle
+      operationId: addCircleMember
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: circleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CircleMember'
+      responses:
+        '200':
+          description: member added
+  
+  /circles/{circleId}:
+    get:
+      tags: [Circles]
+      summary: Get one circle
+      operationId: getCircle
+      parameters:
+        - name: circleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Circle'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        email:
+          type: string
+
+    UserCreate:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        email:
+          type: string
+
+    PoliticalView:
+      type: object
+      properties:
+        ideology:
+          type: string
+          enum:
+            - left
+            - center
+            - right
+            - libertarian
+            - authoritarian
+            - apolitical
+        description:
+          type: string
+
+    Circle:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - friends
+            - family
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+
+    CircleCreate:
+      type: object
+      required: [name, type]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - friends
+            - family
+
+    CircleMember:
+      type: object
+      properties:
+        userId:
+          type: string
