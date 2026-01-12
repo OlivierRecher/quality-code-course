@@ -1,17 +1,12 @@
-import express, { type Request, type Response } from 'express';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import express from 'express';
+import userController from './adapters/driving/userController';
 
 const app = express();
-const port = process.env.PORT || 3000;
-
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome to the TypeScript Backend!');
-});
+app.use('/users', userController);
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-})
+    console.log(`Server listening on http://localhost:${port}`);
+});
