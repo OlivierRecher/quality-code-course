@@ -11,9 +11,9 @@ export class UserController {
     }
 
     registerRoutes(app: Express) {
-        router.get("/users", this.getAllUsers.bind(this));
-        router.post("/users", this.createUser.bind(this));
-        router.get("/users/:id", this.getUser.bind(this));
+        app.get("/users", this.getAllUsers.bind(this));
+        app.post("/users", this.createUser.bind(this));
+        app.get("/users/:id", this.getUser.bind(this));
     }
 
     async getAllUsers(req: express.Request, res: express.Response) {

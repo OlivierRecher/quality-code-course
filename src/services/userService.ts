@@ -17,7 +17,7 @@ export class UserService implements UserPort {
         return this.repo.findById(id);
     }
 
-    async createUser(user: User): Promise<void> {
-        await this.repo.save(user);
+    async createUser(user: Omit<User, 'id'>): Promise<User> {
+        return this.repo.save(user);
     }
 }

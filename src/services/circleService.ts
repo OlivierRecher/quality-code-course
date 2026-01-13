@@ -12,4 +12,8 @@ export class CircleService implements CirclePort {
     async getCircle(id: string): Promise<Circle | undefined> {
         return this.repo.findById(id);
     }
+
+    async createCircle(circle: Omit<Circle, 'id'>): Promise<Circle> {
+        return this.repo.save(circle);
+    }
 }
