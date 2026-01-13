@@ -20,4 +20,8 @@ export class UserService implements UserPort {
     async createUser(user: Omit<User, 'id'>): Promise<User> {
         return this.repo.save(user);
     }
+
+    async deleteUser(id: string): Promise<void> {
+        return this.repo.delete(id);
+    }
 }
