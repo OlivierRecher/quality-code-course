@@ -32,6 +32,8 @@ export class CircleService implements CirclePort {
         if (!circle.members.some(m => m.id === user.id)) {
             circle.members.push(user);
             await this.repo.update(circle);
+        } else {
+            throw new Error("User is already a member of the circle");
         }
     }
 }
