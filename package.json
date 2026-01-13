@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
