@@ -19,8 +19,4 @@ const circleService = new CircleService(circleRepo, userRepo);
 const circleController = new CircleController(circleService);
 circleController.registerRoutes(app);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server listening on http://localhost:${port}`);
-});
+export { app };

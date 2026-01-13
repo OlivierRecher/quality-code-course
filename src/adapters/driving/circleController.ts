@@ -18,7 +18,8 @@ export class CircleController {
         const id = req.params.id as string;
         const found = await this.service.getCircle(id);
         if (!found) {
-            return res.status(404).json({ message: "Circle not found" });
+            res.status(404).json({ message: "Circle not found" });
+            return;
         }
         res.json(found);
     }

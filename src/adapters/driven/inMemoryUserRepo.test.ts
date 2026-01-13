@@ -1,7 +1,6 @@
 import { InMemoryUserRepo } from './inMemoryUserRepo';
 import { User } from '../../domain/user';
 
-// Mock uuid
 jest.mock('uuid', () => ({
     v4: jest.fn(() => 'uuid-123')
 }));
@@ -29,12 +28,11 @@ describe('InMemoryUserRepo', () => {
         const existingUser: User = { id: '1', firstName: 'Jane', lastName: 'Doe', age: 25, politicalParty: 'Democrat' };
         users.push(existingUser);
 
-        // Re-instantiate to ensure it reads from the array passed in ctor
         const testRepo = new InMemoryUserRepo(users);
         const allUsers = await testRepo.findAll();
 
         expect(allUsers).toEqual(users);
-        expect(allUsers).not.toBe(users); // Ensure it returns a copy
+        expect(allUsers).not.toBe(users);
     });
 
     it('should find user by id', async () => {
