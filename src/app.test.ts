@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from './app';
 
-describe('Integration Tests', () => {
+describe('Tests end-to-end', () => {
     it('should create a user', async () => {
         const response = await request(app)
             .post('/users')

@@ -5,7 +5,17 @@ meta {
 }
 
 delete {
-  url: http://localhost:3000/users/16a6ed64-c0a0-4720-8876-459b67a9974d
+  url: http://localhost:3000/users/{{userId}}
   body: none
   auth: inherit
+}
+
+tests {
+  test("Should return 204 No Content", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+
+  test("Should respond within reasonable time", function() {
+    expect(res.getResponseTime()).to.be.lessThan(1000);
+  });
 }

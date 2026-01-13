@@ -20,16 +20,36 @@ body:json {
 }
 
 tests {
-  test("Should return 201", function () {
+  test("Should return 201 Created", function () {
     expect(res.getStatus()).to.equal(201);
   });
   
+  test("Should match content type", function() {
+    expect(res.getHeader('content-type')).to.include('application/json');
+  });
   
-  test("Should have valid body", function () {
+  test("Should respond within reasonable time", function() {
+    expect(res.getResponseTime()).to.be.lessThan(1000);
+  });
+  
+  test("Should have valid body structure", function () {
     const body = res.getBody();
-    expect(body).to.have.property("id");
+    expect(body.id).to.be.a('string');
+    expect(body).to.have.property("id"); 
+    
+    expect(body.name).to.be.a('string');
     expect(body.name).to.equal("John Doe");
+    
+    expect(body.age).to.be.a('number');
     expect(body.age).to.equal(30);
+    
+    expect(body.email).to.be.a('string');
     expect(body.email).to.contain("@example.com");
+    
+    expect(body.political_party).to.be.a('string');
+    expect(body.political_party).to.equal("Gauche");
+  
+    // Save userId for subsequent requests
+    bru.setVar("userId", body.id);
   });
 }

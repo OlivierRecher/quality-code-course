@@ -13,6 +13,37 @@ post {
 body:json {
   {
     "name": "My Circle",
-    "type": "famille"
+    "type": "Friends"
   }
+}
+
+tests {
+  test("Should return 201 Created", function () {
+      expect(res.getStatus()).to.equal(201);
+    });
+  
+  test("Should match content type", function() {
+      expect(res.getHeader('content-type')).to.include('application/json');
+    });
+  
+    test("Should respond within reasonable time", function() {
+      expect(res.getResponseTime()).to.be.lessThan(1000);
+    });
+  
+  test("Should have valid body structure", function () {
+    const body = res.getBody();
+    expect(body.id).to.be.a('string');
+    expect(body).to.have.property("id"); 
+    
+    expect(body.name).to.be.a('string');
+    expect(body.name).to.equal("My Circle");
+    
+    expect(body.type).to.be.a('string');
+    expect(body.type).to.equal("Friends");
+    
+    expect(body.members).to.be.an("array");
+    
+    // Save circleId for subsequent requests
+    bru.setVar("circleId", body.id);
+  });
 }
