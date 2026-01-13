@@ -5,7 +5,33 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/users/1
+  url: http://localhost:3000/users/{{userId}}
   body: none
   auth: none
+}
+
+tests {
+  test("Should return 200 OK", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Should match content type", function() {
+    expect(res.getHeader('content-type')).to.include('application/json');
+  });
+
+  test("Should respond within reasonable time", function() {
+    expect(res.getResponseTime()).to.be.lessThan(1000);
+  });
+
+  test("Should have valid body structure", function () {
+    const body = res.getBody();
+    expect(body).to.have.property("id");
+    expect(body.id).to.be.a('string');
+    expect(body).to.have.property("name");
+    expect(body.name).to.be.a('string');
+    expect(body).to.have.property("email");
+    expect(body.email).to.be.a('string');
+    expect(body).to.have.property("age");
+    expect(body.age).to.be.a('number');
+  });
 }

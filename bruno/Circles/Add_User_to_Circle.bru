@@ -5,7 +5,17 @@ meta {
 }
 
 put {
-  url: http://localhost:3000/circles/1/users/1
+  url: http://localhost:3000/circles/{{circleId}}/users/{{userId}}
   body: none
   auth: none
+}
+
+tests {
+  test("Should return 204 No Content", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+
+  test("Should respond within reasonable time", function() {
+    expect(res.getResponseTime()).to.be.lessThan(1000);
+  });
 }

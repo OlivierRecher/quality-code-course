@@ -194,7 +194,7 @@ describe('Integration Tests', () => {
     });
 });
 
-describe('E2E Tests', () => {
+describe('Tests end-to-end', () => {
     it('should create a user', async () => {
         const response = await request(app)
             .post('/users')

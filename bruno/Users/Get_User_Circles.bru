@@ -5,7 +5,32 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/users/19130c15-ae5d-4db7-a37a-447ae28d347c/circles
+  url: http://localhost:3000/users/{{userId}}/circles
   body: none
   auth: none
+}
+
+tests {
+  test("Should return 200 OK", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Should match content type", function() {
+    expect(res.getHeader('content-type')).to.include('application/json');
+  });
+
+  test("Should respond within reasonable time", function() {
+    expect(res.getResponseTime()).to.be.lessThan(1000);
+  });
+
+  test("Should return an array of circles", function () {
+    const body = res.getBody();
+    expect(body).to.be.an('array');
+    if (body.length > 0) {
+      const circle = body[0];
+      expect(circle).to.have.property("id");
+      expect(circle).to.have.property("name");
+      expect(circle).to.have.property("type");
+    }
+  });
 }
