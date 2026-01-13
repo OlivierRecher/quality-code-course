@@ -1,20 +1,30 @@
-import express from "express";
-import { InMemoryCircleRepo } from "../driven/inMemoryCircleRepo";
+import express, { Express } from "express";
+import { CirclePort } from "../../ports/driving/circlePort";
 
-import { CircleService } from "../../services/circleService";
+export class CircleController {
+    private readonly service: CirclePort;
 
-const router = express.Router();
-
-const repo = new InMemoryCircleRepo();
-const circleService = new CircleService(repo);
-
-router.get("/:id", async (req, res) => {
-    const id = req.params.id;
-    const found = await circleService.getCircle(id);
-    if (!found) {
-        return res.status(404).json({ message: "Circle not found" });
+    constructor(circleService: CirclePort) {
+        this.service = circleService;
     }
-    res.json(found);
-});
 
-export default router;
+    registerRoutes(app: Express) {
+        app.get("/circles/:id", this.getCircle.bind(this));
+        app.post("/circles", this.createCircle.bind(this));
+    }
+
+    async getCircle(req: express.Request, res: express.Response) {
+        const id = req.params.id as string;
+        const found = await this.service.getCircle(id);
+        if (!found) {
+            return res.status(404).json({ message: "Circle not found" });
+        }
+        res.json(found);
+    }
+
+    async createCircle(req: express.Request, res: express.Response) {
+        const circle = req.body;
+        const created = await this.service.createCircle(circle);
+        res.status(201).json(created);
+    }
+}
