@@ -9,11 +9,13 @@ import { CircleController } from './adapters/driving/circleController';
 const app = express();
 app.use(express.json());
 
-const userService = new UserService(new InMemoryUserRepo());
+const userRepo = new InMemoryUserRepo();
+const circleRepo = new InMemoryCircleRepo();
+const userService = new UserService(userRepo, circleRepo);
 const userController = new UserController(userService);
 userController.registerRoutes(app);
 
-const circleService = new CircleService(new InMemoryCircleRepo());
+const circleService = new CircleService(circleRepo, userRepo);
 const circleController = new CircleController(circleService);
 circleController.registerRoutes(app);
 
