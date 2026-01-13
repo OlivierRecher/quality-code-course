@@ -15,14 +15,14 @@ describe('UserService', () => {
             findById: jest.fn(),
             save: jest.fn(),
             delete: jest.fn(),
-        } as any;
+        } as unknown as jest.Mocked<UserRepositoryPort>;
 
         mockCircleRepo = {
             findById: jest.fn(),
             save: jest.fn(),
             update: jest.fn(),
             findCirclesByUserId: jest.fn(),
-        } as any;
+        } as unknown as jest.Mocked<CircleRepositoryPort>;
 
         userService = new UserService(mockUserRepo, mockCircleRepo);
     });

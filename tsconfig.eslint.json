@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.json",
+    "include": [
+        "src",
+        "eslint.config.mjs",
+        "jest.config.js"
+    ],
+    "compilerOptions": {
+        "noEmit": true,
+        "allowJs": true
+    }
+}
