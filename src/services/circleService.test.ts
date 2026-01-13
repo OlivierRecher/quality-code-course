@@ -97,10 +97,7 @@ describe('CircleService', () => {
             mockCircleRepo.findById.mockResolvedValue(circle);
             mockUserRepo.findById.mockResolvedValue(user);
 
-            await circleService.addMember('1', '1');
-
-            expect(mockCircleRepo.update).not.toHaveBeenCalled();
-            expect(circle.members).toHaveLength(1);
+            await expect(circleService.addMember('1', '1')).rejects.toThrow('User is already a member of the circle');
         });
     });
 });
