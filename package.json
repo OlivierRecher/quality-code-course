@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "test": "jest",
+    "coverage": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
