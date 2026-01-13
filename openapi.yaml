@@ -134,16 +134,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/Circle'
 
+  /circles:
     post:
       tags: [Circles]
-      summary: Create a new circle (friends or family)
+      summary: Create a new circle
       operationId: createCircle
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -152,30 +147,28 @@ paths:
               $ref: '#/components/schemas/CircleCreate'
       responses:
         '201':
-          description: created
+          description: circle created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Circle'
 
-  /users/{userId}/circles/{circleId}/members:
+  /circles/{circleId}/addMember/{userId}:
     post:
       tags: [Circles]
-      summary: Add a user to a circle
+      summary: Add a member to a circle
       operationId: addCircleMember
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
         - name: circleId
           in: path
           required: true
           schema:
             type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CircleMember'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: member added
