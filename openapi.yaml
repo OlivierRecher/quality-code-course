@@ -51,7 +51,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: user
@@ -69,7 +69,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '204':
           description: deleted
@@ -84,7 +84,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: political view
@@ -102,7 +102,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
       requestBody:
         required: true
         content:
@@ -123,7 +123,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: list of circles
@@ -163,12 +163,12 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
         - name: userId
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: member added
@@ -183,7 +183,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: number
       responses:
         '200':
           description: user
@@ -198,7 +198,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: number
         name:
           type: string
         age:
@@ -236,7 +236,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: number
         name:
           type: string
         type:
