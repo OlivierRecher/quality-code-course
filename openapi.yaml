@@ -153,7 +153,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Circle'
 
-  /circles/{circleId}/addMember/{userId}:
+  /circles/{circleId}/users/{userId}:
     post:
       tags: [Circles]
       summary: Add a member to a circle
