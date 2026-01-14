@@ -13,12 +13,13 @@ export class DbUserRepo implements UserRepositoryPort {
     }
 
     static create(): DbUserRepo {
+        let dbInstance: DbUserRepo;
         Promise.resolve(openDb()).then((db) => {
-            return new DbUserRepo(db);
+            dbInstance = new DbUserRepo(db);
         }).catch(() => {
             throw new Error("Database connection not established yet.");
         });
-        throw new Error("Database connection not established yet.");
+        return dbInstance!;
     }
 
     async findAll(): Promise<User[]> {
