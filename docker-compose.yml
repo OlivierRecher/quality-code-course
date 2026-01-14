@@ -1,0 +1,10 @@
+services:
+  api:
+    build: .
+    container_name: ts-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DB_TYPE=sqlite
+      - DB_FILENAME=/app/data/database.sqlite
