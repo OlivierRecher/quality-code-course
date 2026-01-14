@@ -1,12 +1,11 @@
 import { UserRepositoryPort } from "../../ports/driven/userRepoPort";
 import { User } from "../../domain/user";
-import { openDb } from '../../db/sqlite';
 import { Database } from 'sqlite3';
 import { v4 as uuidv4 } from 'uuid';
 
 export class DbUserRepo implements UserRepositoryPort {
 
-    private db: Database;
+    private readonly db: Database;
 
     private constructor(db: Database) {
         this.db = db;

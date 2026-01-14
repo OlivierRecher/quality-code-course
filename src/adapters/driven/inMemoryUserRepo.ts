@@ -3,7 +3,7 @@ import { User } from "../../domain/user";
 import { v4 as uuidv4 } from 'uuid';
 
 export class InMemoryUserRepo implements UserRepositoryPort {
-    private users: User[];
+    private readonly users: User[];
 
     constructor(users: User[] = []) {
         this.users = users;
