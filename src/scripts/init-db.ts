@@ -10,6 +10,7 @@ initDb()
         process.exit(0);
     })
     .catch((err) => {
+        // eslint-disable-next-line no-console
         console.error("Error initializing database:", err);
         process.exit(1);
     });

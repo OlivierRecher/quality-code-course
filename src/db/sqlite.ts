@@ -19,7 +19,7 @@ export const openDb = async (): Promise<Database> => {
     return db;
 };
 
-export const initDb = async () => {
+export const initDb = async (): Promise<void> => {
     const database = await openDb();
 
     await database.exec(`
@@ -50,5 +50,6 @@ export const initDb = async () => {
         );
     `);
 
+    // eslint-disable-next-line no-console
     console.log('SQLite database initialized');
 };
