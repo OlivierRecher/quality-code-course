@@ -18,4 +18,8 @@ tests {
   test("Should respond within reasonable time", function() {
     expect(res.getResponseTime()).to.be.lessThan(1000);
   });
+
+  test("Should match requested ID", function() {
+    expect(res.getUrl()).to.contain(bru.getVar('userId'));
+  });
 }

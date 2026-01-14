@@ -32,4 +32,8 @@ tests {
     expect(body).to.have.property("type");
     expect(body.type).to.be.a('string');
   });
+
+  test("Should match requested ID", function() {
+    expect(res.getUrl()).to.contain(bru.getVar('circleId'));
+  });
 }

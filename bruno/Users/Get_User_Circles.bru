@@ -33,4 +33,8 @@ tests {
       expect(circle).to.have.property("type");
     }
   });
+
+  test("Should match requested ID", function() {
+    expect(res.getUrl()).to.contain(bru.getVar('userId'));
+  });
 }
