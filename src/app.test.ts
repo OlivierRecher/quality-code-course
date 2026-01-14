@@ -187,9 +187,15 @@ describe('Integration Tests', () => {
                 name: 'Gamers Unite'
             });
 
+
             await circleService.addMember(circle.id, user.id);
 
-            await expect(circleService.addMember(circle.id, user.id)).rejects.toThrow('User is already a member of the circle');
+            try {
+                await circleService.addMember(circle.id, user.id);
+                fail('Should have thrown an error');
+            } catch (e) {
+                expect((e as Error).message).toBe('User is already a member of the circle');
+            }
         });
     });
 });
@@ -247,5 +253,28 @@ describe('Tests end-to-end', () => {
             .send();
 
         expect(joinRes.status).toBe(204);
+    });
+
+    it('should not allow adding the same user to a circle twice', async () => {
+        const userRes = await request(app)
+            .post('/users')
+            .send({ name: 'Charlie', email: 'charlie@example.com' });
+        const userId = userRes.body.id;
+
+        const circleRes = await request(app)
+            .post('/circles')
+            .send({ name: 'Gamers Club' });
+        const circleId = circleRes.body.id;
+
+        await request(app)
+            .put(`/circles/${circleId}/users/${userId}`)
+            .send();
+
+        const duplicateRes = await request(app)
+            .put(`/circles/${circleId}/users/${userId}`)
+            .send();
+
+        expect(duplicateRes.status).toBe(409);
+        expect(duplicateRes.body.message).toBe('User is already a member of the circle');
     });
 });

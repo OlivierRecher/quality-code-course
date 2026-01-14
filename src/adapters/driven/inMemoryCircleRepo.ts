@@ -3,7 +3,7 @@ import { Circle } from "../../domain/circle";
 import { v4 as uuidv4 } from 'uuid';
 
 export class InMemoryCircleRepo implements CircleRepositoryPort {
-    private circles: Circle[];
+    private readonly circles: Circle[];
 
     constructor(circles: Circle[] = []) {
         this.circles = circles;
