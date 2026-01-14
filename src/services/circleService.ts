@@ -29,11 +29,11 @@ export class CircleService implements CirclePort {
         if (!user) throw new Error("User not found");
 
         if (!circle.members) circle.members = [];
-        if (!circle.members.some(m => m.id === user.id)) {
-            circle.members.push(user);
-            await this.repo.update(circle);
-        } else {
+
+        if (circle.members.some(m => m.id === user.id)) {
             throw new Error("User is already a member of the circle");
         }
+        circle.members.push(user);
+        await this.repo.update(circle);
     }
 }

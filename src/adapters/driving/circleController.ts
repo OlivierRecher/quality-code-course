@@ -37,9 +37,15 @@ export class CircleController {
             await this.service.addMember(id, userId);
             res.status(204).send();
         } catch (e) {
-            if (e instanceof Error && (e.message === "Circle not found" || e.message === "User not found")) {
-                res.status(404).json({ message: e.message });
-                return;
+            if (e instanceof Error) {
+                if (e.message === "Circle not found" || e.message === "User not found") {
+                    res.status(404).json({ message: e.message });
+                    return;
+                }
+                if (e.message === "User is already a member of the circle") {
+                    res.status(400).json({ message: e.message });
+                    return;
+                }
             }
             res.status(500).json({ message: "Internal Server Error" });
         }

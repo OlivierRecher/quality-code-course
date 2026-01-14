@@ -1,6 +1,6 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
-import path from 'path';
+import path from 'node:path';
 
 let db: Database | undefined;
 
@@ -19,7 +19,7 @@ export const openDb = async (): Promise<Database> => {
     return db;
 };
 
-export const initDb = async () => {
+export const initDb = async (): Promise<void> => {
     const database = await openDb();
 
     await database.exec(`
@@ -50,5 +50,6 @@ export const initDb = async () => {
         );
     `);
 
+    // eslint-disable-next-line no-console
     console.log('SQLite database initialized');
 };

@@ -18,3 +18,7 @@ init-db:
 
 test:
 	npm test
+
+fixers:
+	npm run lint:fix
+	npx sonarqube-scanner
