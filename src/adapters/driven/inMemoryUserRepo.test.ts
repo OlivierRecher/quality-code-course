@@ -15,17 +15,17 @@ describe('InMemoryUserRepo', () => {
     });
 
     it('should save a user', async () => {
-        const userData: Omit<User, 'id'> = { firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' };
+        const userData: Omit<User, 'id'> = { name: 'John Doe', age: 30, politicalParty: 'Independent' };
         const savedUser = await repo.save(userData);
 
         expect(savedUser).toHaveProperty('id', 'uuid-123');
-        expect(savedUser.firstName).toBe(userData.firstName);
+        expect(savedUser.name).toBe(userData.name);
         expect(users.length).toBe(1);
         expect(users[0]).toEqual(savedUser);
     });
 
     it('should find all users', async () => {
-        const existingUser: User = { id: '1', firstName: 'Jane', lastName: 'Doe', age: 25, politicalParty: 'Democrat' };
+        const existingUser: User = { id: '1', name: 'Jane Doe', age: 25, politicalParty: 'Democrat' };
         users.push(existingUser);
 
         const testRepo = new InMemoryUserRepo(users);
@@ -36,7 +36,7 @@ describe('InMemoryUserRepo', () => {
     });
 
     it('should find user by id', async () => {
-        const user: User = { id: 'uuid-123', firstName: 'Alice', lastName: 'Smith', age: 28, politicalParty: 'Republican' };
+        const user: User = { id: 'uuid-123', name: 'Alice Smith', age: 28, politicalParty: 'Republican' };
         users.push(user);
 
         const foundUser = await repo.findById('uuid-123');
@@ -50,7 +50,7 @@ describe('InMemoryUserRepo', () => {
     });
 
     it('should delete a user', async () => {
-        const user: User = { id: 'to-delete', firstName: 'Bob', lastName: 'Builder', age: 40, politicalParty: 'Independent' };
+        const user: User = { id: 'to-delete', name: 'Bob Builder', age: 40, politicalParty: 'Independent' };
         users.push(user);
 
         await repo.delete('to-delete');
@@ -59,7 +59,7 @@ describe('InMemoryUserRepo', () => {
     });
 
     it('should safely handle delete for non-existent user', async () => {
-        const user: User = { id: 'keep-me', firstName: 'Bob', lastName: 'Builder', age: 40, politicalParty: 'Independent' };
+        const user: User = { id: 'keep-me', name: 'Bob Builder', age: 40, politicalParty: 'Independent' };
         users.push(user);
 
         await repo.delete('non-existent');

@@ -21,22 +21,20 @@ describe('Integration Tests', () => {
     describe('User Management', () => {
         it('should create a user', async () => {
             const user = await userService.createUser({
-                firstName: 'John',
-                lastName: 'Doe',
+                name: 'John Doe',
                 age: 30,
                 politicalParty: 'Independent'
             });
 
             expect(user).toHaveProperty('id');
-            expect(`${user.firstName} ${user.lastName}`).toBe('John Doe');
+            expect(user.name).toBe('John Doe');
             expect(user.age).toBe(30);
             expect(user.politicalParty).toBe('Independent');
         });
 
         it('should retrieve a created user', async () => {
             const createdUser = await userService.createUser({
-                firstName: 'Jane',
-                lastName: 'Doe',
+                name: 'Jane Doe',
                 age: 25,
                 politicalParty: 'Democrat'
             });
@@ -45,22 +43,19 @@ describe('Integration Tests', () => {
 
             expect(retrievedUser).toBeDefined();
             expect(retrievedUser?.id).toBe(createdUser.id);
-            expect(retrievedUser?.firstName).toBe('Jane');
-            expect(retrievedUser?.lastName).toBe('Doe');
+            expect(retrievedUser?.name).toBe('Jane Doe');
             expect(retrievedUser?.age).toBe(25);
             expect(retrievedUser?.politicalParty).toBe('Democrat');
         });
 
         it('should retrieve all users', async () => {
             const user1 = await userService.createUser({
-                firstName: 'User',
-                lastName: 'One',
+                name: 'User One',
                 age: 20,
                 politicalParty: 'Party A'
             });
             const user2 = await userService.createUser({
-                firstName: 'User',
-                lastName: 'Two',
+                name: 'User Two',
                 age: 22,
                 politicalParty: 'Party B'
             });
@@ -74,8 +69,7 @@ describe('Integration Tests', () => {
 
         it('should delete a user', async () => {
             const user = await userService.createUser({
-                firstName: 'To',
-                lastName: 'Delete',
+                name: 'User To Delete',
                 age: 40,
                 politicalParty: 'Independent'
             });
@@ -121,8 +115,7 @@ describe('Integration Tests', () => {
     describe('Circle and User Integration', () => {
         it('should allow a user to join a circle', async () => {
             const user = await userService.createUser({
-                firstName: 'Alice',
-                lastName: 'Smith',
+                name: 'Alice Smith',
                 age: 28,
                 politicalParty: 'Republican'
             });
@@ -144,8 +137,7 @@ describe('Integration Tests', () => {
 
         it('should retrieve circles for a user', async () => {
             const user = await userService.createUser({
-                firstName: 'Bob',
-                lastName: 'Brown',
+                name: 'Bob Johnson',
                 age: 35,
                 politicalParty: 'Libertarian'
             });
@@ -175,8 +167,7 @@ describe('Integration Tests', () => {
 
         it('should not allow adding the same user to a circle twice', async () => {
             const user = await userService.createUser({
-                firstName: 'Charlie',
-                lastName: 'Davis',
+                name: 'Charlie Brown',
                 age: 29,
                 politicalParty: 'Green'
             });

@@ -25,8 +25,7 @@ export const initDb = async (): Promise<void> => {
     await database.exec(`
         CREATE TABLE IF NOT EXISTS user (
             id TEXT PRIMARY KEY,
-            firstName TEXT NOT NULL,
-            lastName TEXT NOT NULL,
+            name TEXT NOT NULL,
             age INTEGER NOT NULL,
             politicalParty TEXT NOT NULL
         );

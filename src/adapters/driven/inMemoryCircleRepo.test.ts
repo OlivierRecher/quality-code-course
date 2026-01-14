@@ -50,8 +50,8 @@ describe('InMemoryCircleRepo', () => {
     });
 
     it('should find circles by userId', async () => {
-        const user1: User = { id: 'u1', firstName: 'A', lastName: 'B', age: 20, politicalParty: 'P' };
-        const user2: User = { id: 'u2', firstName: 'C', lastName: 'D', age: 22, politicalParty: 'P' };
+        const user1: User = { id: 'u1', name: 'A B', age: 20, politicalParty: 'P' };
+        const user2: User = { id: 'u2', name: 'C D', age: 22, politicalParty: 'P' };
 
         const circle1: Circle = { id: 'c1', name: 'C1', type: 'T', members: [user1] };
         const circle2: Circle = { id: 'c2', name: 'C2', type: 'T', members: [user2] };

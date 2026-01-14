@@ -1,7 +1,8 @@
 import { UserRepositoryPort } from "../../ports/driven/userRepoPort";
 import { User } from "../../domain/user";
-import { Database } from 'sqlite3';
+import { Database } from 'sqlite';
 import { v4 as uuidv4 } from 'uuid';
+import { openDb } from "../../db/sqlite";
 
 export class DbUserRepo implements UserRepositoryPort {
 
@@ -11,81 +12,45 @@ export class DbUserRepo implements UserRepositoryPort {
         this.db = db;
     }
 
-    static create(db: Database): DbUserRepo {
-        return new DbUserRepo(db);
+    static create(): DbUserRepo {
+        Promise.resolve(openDb()).then((db) => {
+            return new DbUserRepo(db);
+        }).catch(() => {
+            throw new Error("Database connection not established yet.");
+        });
+        throw new Error("Database connection not established yet.");
     }
 
     async findAll(): Promise<User[]> {
-        const rows = await new Promise<User[]>((resolve, reject) => {
-            this.db.all(`SELECT * FROM user`, (err, rows) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(rows as User[]);
-                }
-            });
+        const rows = await this.db.all(`SELECT * FROM user`, (err: Error | null, rows: User[]) => {
+            if (err) {
+                throw err;
+            }
+            return rows;
         });
-        return rows.map(row => ({
-            id: row.id,
-            firstName: row.firstName,
-            lastName: row.lastName,
-            age: row.age,
-            politicalParty: row.politicalParty
-        }));
+        return rows;
     }
 
     async findById(id: string): Promise<User | undefined> {
-        const row = await new Promise<User | undefined>((resolve, reject) => {
-            this.db.get(`SELECT * FROM user WHERE id = ?`, [id], (err, row) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(row as User | undefined);
-                }
-            });
+        const row = await this.db.get(`SELECT * FROM user WHERE id = ?`, [id], (err: Error | null, row: User) => {
+            if (err) {
+                throw err;
+            }
+            return row;
         });
-        if (!row) {
-            return undefined;
-        }
-        return {
-            id: row.id,
-            firstName: row.firstName,
-            lastName: row.lastName,
-            age: row.age,
-            politicalParty: row.politicalParty
-        };
+        return row;
     }
 
     async save(user: Omit<User, 'id'>): Promise<User> {
         const id = uuidv4();
-        await new Promise<void>((resolve, reject) => {
-            this.db.run(
-                `INSERT INTO user (id, firstName, lastName, age, politicalParty) VALUES (?, ?, ?, ?, ?)`,
-                [id, user.firstName, user.lastName, user.age, user.politicalParty],
-                function (err) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve();
-                    }
-                }
-            );
-        });
-        return {
-            id,
-            ...user
-        };
+        await this.db.run(
+            `INSERT INTO user (id, name, email) VALUES (?, ?, ?)`,
+            [id, user.name, user.age, user.politicalParty]
+        );
+        return this.findById(id) as Promise<User>;
     }
 
     async delete(id: string): Promise<void> {
-        await new Promise<void>((resolve, reject) => {
-            this.db.run(`DELETE FROM user WHERE id = ?`, [id], function (err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
+        await this.db.run(`DELETE FROM user WHERE id = ?`, [id]);
     }
 }

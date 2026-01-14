@@ -28,7 +28,7 @@ describe('UserService', () => {
     });
 
     it('should create a user', async () => {
-        const user: Omit<User, 'id'> = { firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' };
+        const user: Omit<User, 'id'> = { name: 'John Doe', age: 30, politicalParty: 'Independent' };
         const createdUser: User = { id: '1', ...user };
         mockUserRepo.save.mockResolvedValue(createdUser);
 
@@ -39,7 +39,7 @@ describe('UserService', () => {
     });
 
     it('should get a user by id', async () => {
-        const user: User = { id: '1', firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' };
+        const user: User = { id: '1', name: 'John Doe', age: 30, politicalParty: 'Independent' };
         mockUserRepo.findById.mockResolvedValue(user);
 
         const result = await userService.getUser('1');
@@ -57,7 +57,7 @@ describe('UserService', () => {
     });
 
     it('should list users', async () => {
-        const users: User[] = [{ id: '1', firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' }];
+        const users: User[] = [{ id: '1', name: 'John Doe', age: 30, politicalParty: 'Independent' }];
         mockUserRepo.findAll.mockResolvedValue(users);
 
         const result = await userService.listUsers();
@@ -75,7 +75,7 @@ describe('UserService', () => {
     });
 
     it('should get circles for a user', async () => {
-        const user: User = { id: '1', firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' };
+        const user: User = { id: '1', name: 'John Doe', age: 30, politicalParty: 'Independent' };
         const circles: Circle[] = [{ id: '1', name: 'Tech', type: 'Work', members: [user] }];
 
         mockUserRepo.findById.mockResolvedValue(user);

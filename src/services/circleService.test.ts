@@ -59,7 +59,7 @@ describe('CircleService', () => {
     describe('addMember', () => {
         it('should add a user to a circle', async () => {
             const circle: Circle = { id: '1', name: 'Tech', type: 'Work', members: [] };
-            const user: User = { id: '1', firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' };
+            const user: User = { id: '1', name: 'John Doe', age: 30, politicalParty: 'Independent' };
 
             mockCircleRepo.findById.mockResolvedValue(circle);
             mockUserRepo.findById.mockResolvedValue(user);
@@ -91,7 +91,7 @@ describe('CircleService', () => {
         });
 
         it('should not add user if already a member', async () => {
-            const user: User = { id: '1', firstName: 'John', lastName: 'Doe', age: 30, politicalParty: 'Independent' };
+            const user: User = { id: '1', name: 'John Doe', age: 30, politicalParty: 'Independent' };
             const circle: Circle = { id: '1', name: 'Tech', type: 'Work', members: [user] };
 
             mockCircleRepo.findById.mockResolvedValue(circle);
